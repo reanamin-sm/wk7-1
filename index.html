@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>중3 필수 영단어 30 Master!</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+        }
+
+        body {
+            background-color: #fff0f3;
+            color: #4a4e69;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px;
+            min-height: 100vh;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            color: #ff4d6d;
+            margin-bottom: 4px;
+        }
+
+        header p {
+            font-size: 0.9rem;
+            color: #8d99ae;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .progress-card {
+            background: #ffffff;
+            padding: 16px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 14px;
+            background-color: #ffe5ec;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: #ff8fa3;
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: #ffe5ec;
+            padding: 4px;
+            border-radius: 12px;
+            gap: 4px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: transparent;
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: #b5838d;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .tab-btn.active {
+            background: #ffffff;
+            color: #ff4d6d;
+        }
+
+        .view {
+            display: none;
+            width: 100%;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .view.active {
+            display: flex;
+        }
+
+        .card-container {
+            width: 100%;
+            height: 280px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            border: 2px solid #ffccd5;
+        }
+
+        .card-tag {
+            position: absolute;
+            top: 12px;
+            left: 16px;
+            background: #ffe5ec;
+            color: #ff4d6d;
+            padding: 4px 10px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .tts-btn {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            background: #fff0f3;
+            border: 1px solid #ffccd5;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .word-text {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #ff4d6d;
+            margin-bottom: 4px;
+        }
+
+        .phonetic {
+            font-size: 1rem;
+            color: #a5a5a5;
+            margin-bottom: 12px;
+        }
+
+        .meaning-text {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #2b2d42;
+            margin-bottom: 12px;
+            display: none;
+        }
+
+        .example-box {
+            background: #fff0f3;
+            padding: 10px;
+            border-radius: 10px;
+            width: 100%;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .card.show-back .word-text,
+        .card.show-back .phonetic {
+            display: none;
+        }
+
+        .card.show-back .meaning-text,
+        .card.show-back .example-box {
+            display: block;
+        }
+
+        .flip-hint {
+            position: absolute;
+            bottom: 10px;
+            font-size: 0.8rem;
+            color: #c4c4c4;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 14px;
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .btn-secondary {
+            background: #ffffff;
+            color: #4a4e69;
+            border: 1px solid #ffccd5;
+        }
+
+        .btn-check {
+            background: #e8f8f5;
+            color: #2ec4b6;
+            border: 1px solid #b2f2bb;
+        }
+
+        .btn-check.active {
+            background: #2ec4b6;
+            color: #ffffff;
+        }
+
+        .search-box {
+            width: 100%;
+            display: flex;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ffccd5;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        .filter-select {
+            padding: 10px;
+            border: 1px solid #ffccd5;
+            border-radius: 8px;
+            background: #fff;
+        }
+
+        .word-list {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .word-item {
+            background: #ffffff;
+            padding: 12px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #ffe5ec;
+        }
+
+        .quiz-card {
+            width: 100%;
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            color: #8d99ae;
+        }
+
+        .quiz-question {
+            text-align: center;
+            padding: 16px;
+            background: #fff0f3;
+            border-radius: 10px;
+        }
+
+        .q-word {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ff4d6d;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        @media (min-width: 480px) {
+            .quiz-options {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .option-btn {
+            padding: 12px;
+            border: 1px solid #ffccd5;
+            border-radius: 8px;
+            background: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .option-btn.correct {
+            background: #e8f8f5;
+            border-color: #2ec4b6;
+            color: #0f5132;
+        }
+
+        .option-btn.wrong {
+            background: #ffeef0;
+            border-color: #ff4d6d;
+            color: #842029;
+        }
+
+        .quiz-result {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Cute Vocab World</h1>
+        <p>중3 필수 영어단어 30개 암기 노트</p>
+    </header>
+
+    <div class="container">
+        <div class="progress-card">
+            <div class="progress-info">
+                <span>암기 달성도</span>
+                <span id="progress-text">0 / 30 (0%)</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progress-fill"></div>
+            </div>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('flashcard')">카드 학습</button>
+            <button class="tab-btn" onclick="switchTab('list')">단어장</button>
+            <button class="tab-btn" onclick="switchTab('quiz')">퀴즈</button>
+        </div>
+
+        <div id="flashcard-view" class="view active">
+            <div class="card-container" onclick="flipCard()">
+                <div class="card" id="flashcard">
+                    <span class="card-tag" id="fc-index">Word #1</span>
+                    <button class="tts-btn" onclick="speakCurrentWord(event)">소리</button>
+                    
+                    <div class="word-text" id="fc-word">abandon</div>
+                    <div class="phonetic" id="fc-phonetic">[əˈbændən]</div>
+                    
+                    <div class="meaning-text" id="fc-meaning">버리다, 포기하다</div>
+                    <div class="example-box" id="fc-example-box">
+                        <div id="fc-example-en">Never abandon your dreams.</div>
+                        <div style="color: #8d99ae; font-size: 0.8rem; margin-top: 2px;" id="fc-example-ko">당신의 꿈을 절대 포기하지 마세요.</div>
+                    </div>
+
+                    <div class="flip-hint" id="fc-hint">터치하여 뜻 확인하기</div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="btn btn-secondary" onclick="prevCard()">이전</button>
+                <button class="btn btn-check" id="fc-memorized-btn" onclick="toggleMemorizedCurrent()">외웠나요?</button>
+                <button class="btn btn-secondary" onclick="nextCard()">다음</button>
+            </div>
+        </div>
+
+        <div id="list-view" class="view">
+            <div class="search-box">
+                <input type="text" id="search-input" class="search-input" placeholder="검색어 입력..." oninput="renderList()">
+                <select id="filter-select" class="filter-select" onchange="renderList()">
+                    <option value="all">전체 (30)</option>
+                    <option value="unlearned">미암기</option>
+                    <option value="learned">암기완료</option>
+                </select>
+            </div>
+            <div class="word-list" id="word-list"></div>
+        </div>
+
+        <div id="quiz-view" class="view">
+            <div class="quiz-card" id="quiz-container">
+                <div class="quiz-header">
+                    <span id="quiz-progress-text">문제 1 / 10</span>
+                    <span id="quiz-combo-text" style="color: #ffb703;">0 Combo</span>
+                </div>
+                <div class="quiz-question">
+                    <div class="q-word" id="quiz-target-word">abandon</div>
+                </div>
+                <div class="quiz-options" id="quiz-options"></div>
+            </div>
+
+            <div class="quiz-card quiz-result" id="quiz-result">
+                <h2 style="color: #ff4d6d;">테스트 완료!</h2>
+                <div style="font-size: 2.5rem; font-weight: bold; color: #ff4d6d;" id="quiz-score">100점</div>
+                <p id="quiz-result-msg" style="color: #8d99ae;">수고하셨습니다!</p>
+                <button class="btn btn-check active" onclick="startQuiz()" style="margin-top: 10px; padding: 10px 20px;">다시하기</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var defaultWords = [
+            { id: 1, word: "abandon", phonetic: "[əˈbændən]", meaning: "버리다, 포기하다", exampleEn: "Never abandon your dreams.", exampleKo: "당신의 꿈을 절대 포기하지 마세요." },
+            { id: 2, word: "benefit", phonetic: "[ˈbenɪfɪt]", meaning: "혜택, 이익", exampleEn: "Fresh air has many benefits.", exampleKo: "신선한 공기는 많은 혜택이 있다." },
+            { id: 3, word: "candidate", phonetic: "[ˈkændɪdət]", meaning: "후보자, 지원자", exampleEn: "She is a top candidate for the job.", exampleKo: "그녀는 그 직무의 유력한 후보자이다." },
+            { id: 4, word: "delicate", phonetic: "[ˈdelɪkət]", meaning: "섬세한, 우아한", exampleEn: "The flower petals are very delicate.", exampleKo: "꽃잎이 매우 섬세하다." },
+            { id: 5, word: "efficient", phonetic: "[ɪˈfɪʃnt]", meaning: "효율적인", exampleEn: "We need an efficient study plan.", exampleKo: "우리는 효율적인 공부 계획이 필요하다." },
+            { id: 6, word: "frequently", phonetic: "[ˈfriːkwəntli]", meaning: "자주, 흔히", exampleEn: "I visit the library frequently.", exampleKo: "나는 도서관을 자주 방문한다." },
+            { id: 7, word: "guarantee", phonetic: "[ˌɡærənˈtiː]", meaning: "보장하다, 약속하다", exampleEn: "I guarantee you will like this book.", exampleKo: "네가 이 책을 좋아할 것이라고 보장해." },
+            { id: 8, word: "hesitate", phonetic: "[ˈhezɪteɪt]", meaning: "망설이다, 주저하다", exampleEn: "Don't hesitate to ask questions.", exampleKo: "질문하는 것을 망설이지 마세요." },
+            { id: 9, word: "ingredient", phonetic: "[ɪnˈɡriːdiənt]", meaning: "재료, 성분", exampleEn: "Fresh ingredients make good food.", exampleKo: "신선한 재료가 좋은 요리를 만든다." },
+            { id: 10, word: "justify", phonetic: "[ˈdʒʌstɪfaɪ]", meaning: "정당화하다", exampleEn: "Nothing can justify hurting others.", exampleKo: "그 무엇도 남을 해치는 것을 정당화할 수 없다." },
+            { id: 11, word: "knowledge", phonetic: "[ˈnɑːlɪdʒ]", meaning: "지식, 정보", exampleEn: "Books are the source of knowledge.", exampleKo: "책은 지식의 샘이다." },
+            { id: 12, word: "landscape", phonetic: "[ˈlændskeɪp]", meaning: "풍경, 경치", exampleEn: "The mountain landscape was beautiful.", exampleKo: "산의 풍경은 아름다웠다." },
+            { id: 13, word: "maintain", phonetic: "[meɪnˈteɪn]", meaning: "유지하다", exampleEn: "Try to maintain a healthy diet.", exampleKo: "건강한 식단을 유지하도록 노력하세요." },
+            { id: 14, word: "negotiate", phonetic: "[nɪˈɡoʊʃieɪt]", meaning: "협상하다", exampleEn: "They managed to negotiate a deal.", exampleKo: "그들은 거래를 협상해 냈다." },
+            { id: 15, word: "obstacle", phonetic: "[ˈɑːbstəkl]", meaning: "장애물", exampleEn: "Overcome every obstacle in your way.", exampleKo: "당신의 길에 있는 모든 장애물을 극복하세요." },
+            { id: 16, word: "persuade", phonetic: "[pərˈsweɪd]", meaning: "설득하다", exampleEn: "He persuaded me to join the club.", exampleKo: "그는 내가 동아리에 가입하도록 설득했다." },
+            { id: 17, word: "qualify", phonetic: "[ˈkwɑːlɪfaɪ]", meaning: "자격을 얻다", exampleEn: "She worked hard to qualify for the final.", exampleKo: "그녀는 결승 자격을 얻기 위해 노력했다." },
+            { id: 18, word: "reluctant", phonetic: "[rɪˈlʌktənt]", meaning: "꺼리는, 마지못해 하는", exampleEn: "He was reluctant to leave early.", exampleKo: "그는 일찍 떠나기를 꺼려했다." },
+            { id: 19, word: "substitute", phonetic: "[ˈsʌbstɪtuːt]", meaning: "대체하다, 대신하다", exampleEn: "You can substitute honey for sugar.", exampleKo: "설탕 대신 꿀을 사용할 수 있습니다." },
+            { id: 20, word: "temporary", phonetic: "[ˈtempəreri]", meaning: "일시적인, 임시의", exampleEn: "This is only a temporary solution.", exampleKo: "이것은 단지 임시 해결책일 뿐이다." },
+            { id: 21, word: "urgent", phonetic: "[ˈɜːrdʒənt]", meaning: "긴급한, 화급한", exampleEn: "I have an urgent message for you.", exampleKo: "너에게 전할 긴급한 메시지가 있어." },
+            { id: 22, word: "variable", phonetic: "[ˈveriəbl]", meaning: "변동이 심한, 가변적인", exampleEn: "The weather here is very variable.", exampleKo: "이곳의 날씨는 변동이 심하다." },
+            { id: 23, word: "witness", phonetic: "[ˈwɪtnəs]", meaning: "목격자; 목격하다", exampleEn: "She was a witness to the accident.", exampleKo: "그녀는 사고의 목격자였다." },
+            { id: 24, word: "yield", phonetic: "[jiːld]", meaning: "양보하다, 산출하다", exampleEn: "You must yield to pedestrians.", exampleKo: "보행자에게 길을 양보해야 합니다." },
+            { id: 25, word: "zealous", phonetic: "[ˈzeləs]", meaning: "열심인, 열정적인", exampleEn: "He is a zealous supporter of the team.", exampleKo: "그는 그 팀의 열렬한 지원자이다." },
+            { id: 26, word: "analyze", phonetic: "[ˈænəlaɪz]", meaning: "분석하다", exampleEn: "We need to analyze the results.", exampleKo: "우리는 결과를 분석할 필요가 있다." },
+            { id: 27, word: "bother", phonetic: "[ˈbɑːðər]", meaning: "신경 쓰이게 하다, 괴롭히다", exampleEn: "Sorry to bother you so late.", exampleKo: "늦은 시간에 괴롭혀서 죄송합니다." },
+            { id: 28, word: "concentrate", phonetic: "[ˈkɑːnsntreɪt]", meaning: "집중하다", exampleEn: "Please concentrate on your study.", exampleKo: "공부에 집중해 주세요." },
+            { id: 29, word: "donate", phonetic: "[ˈdoʊneɪt]", meaning: "기부하다", exampleEn: "Many people donate books every year.", exampleKo: "많은 사람들이 매년 책을 기부한다." },
+            { id: 30, word: "embarrass", phonetic: "[ɪmˈbærəs]", meaning: "당황스럽게 만들다", exampleEn: "His question embarrassed everyone.", exampleKo: "그의 질문은 모두를 당황하게 만들었다." }
+        ];
+
+        var words = [];
+        var currentIndex = 0;
+        var isFlipped = false;
+        var quizCurrentIndex = 0;
+        var quizScore = 0;
+        var quizCombo = 0;
+        var quizQuestions = [];
+
+        function loadData() {
+            try {
+                var saved = localStorage.getItem('cute_vocab_simple_data');
+                if (saved) {
+                    words = JSON.parse(saved);
+                } else {
+                    words = defaultWords.map(function(w) { return Object.assign({}, w, { memorized: false }); });
+                }
+            } catch(e) {
+                words = defaultWords.map(function(w) { return Object.assign({}, w, { memorized: false }); });
+            }
+            updateProgressBar();
+        }
+
+        function saveData() {
+            try {
+                localStorage.setItem('cute_vocab_simple_data', JSON.stringify(words));
+            } catch(e) {}
+            updateProgressBar();
+        }
+
+        function updateProgressBar() {
+            var memorizedCount = words.filter(function(w) { return w.memorized; }).length;
+            var percentage = Math.round((memorizedCount / words.length) * 100);
+            document.getElementById('progress-text').innerText = memorizedCount + ' / ' + words.length + ' (' + percentage + '%)';
+            document.getElementById('progress-fill').style.width = percentage + '%';
+        }
+
+        function switchTab(tabName) {
+            var btns = document.querySelectorAll('.tab-btn');
+            var views = document.querySelectorAll('.view');
+            for (var i = 0; i < btns.length; i++) btns[i].classList.remove('active');
+            for (var i = 0; i < views.length; i++) views[i].classList.remove('active');
+
+            if (tabName === 'flashcard') {
+                btns[0].classList.add('active');
+                document.getElementById('flashcard-view').classList.add('active');
+                renderFlashcard();
+            } else if (tabName === 'list') {
+                btns[1].classList.add('active');
+                document.getElementById('list-view').classList.add('active');
+                renderList();
+            } else if (tabName === 'quiz') {
+                btns[2].classList.add('active');
+                document.getElementById('quiz-view').classList.add('active');
+                startQuiz();
+            }
+        }
+
+        function renderFlashcard() {
+            var word = words[currentIndex];
+            isFlipped = false;
+            document.getElementById('flashcard').classList.remove('show-back');
+
+            document.getElementById('fc-index').innerText = 'Word #' + word.id + ' / 30';
+            document.getElementById('fc-word').innerText = word.word;
+            document.getElementById('fc-phonetic').innerText = word.phonetic;
+            document.getElementById('fc-meaning').innerText = word.meaning;
+            document.getElementById('fc-example-en').innerText = word.exampleEn;
+            document.getElementById('fc-example-ko').innerText = word.exampleKo;
+            document.getElementById('fc-hint').innerText = '터치하여 뜻 확인하기';
+
+            var memBtn = document.getElementById('fc-memorized-btn');
+            if (word.memorized) {
+                memBtn.classList.add('active');
+                memBtn.innerText = '외웠어요!';
+            } else {
+                memBtn.classList.remove('active');
+                memBtn.innerText = '외웠나요?';
+            }
+        }
+
+        function flipCard() {
+            isFlipped = !isFlipped;
+            var card = document.getElementById('flashcard');
+            if (isFlipped) {
+                card.classList.add('show-back');
+                document.getElementById('fc-hint').innerText = '터치하여 단어 보기';
+            } else {
+                card.classList.remove('show-back');
+                document.getElementById('fc-hint').innerText = '터치하여 뜻 확인하기';
+            }
+        }
+
+        function nextCard() {
+            currentIndex = (currentIndex + 1) % words.length;
+            renderFlashcard();
+        }
+
+        function prevCard() {
+            currentIndex = (currentIndex - 1 + words.length) % words.length;
+            renderFlashcard();
+        }
+
+        function toggleMemorizedCurrent() {
+            words[currentIndex].memorized = !words[currentIndex].memorized;
+            saveData();
+            renderFlashcard();
+        }
+
+        function speakCurrentWord(e) {
+            if (e && e.stopPropagation) e.stopPropagation();
+            if ('speechSynthesis' in window) {
+                try {
+                    window.speechSynthesis.cancel();
+                    var utterance = new SpeechSynthesisUtterance(words[currentIndex].word);
+                    utterance.lang = 'en-US';
+                    window.speechSynthesis.speak(utterance);
+                } catch(err) {}
+            }
+        }
+
+        function renderList() {
+            var search = document.getElementById('search-input').value.toLowerCase();
+            var filter = document.getElementById('filter-select').value;
+            var container = document.getElementById('word-list');
+            container.innerHTML = '';
+
+            var filteredWords = words.filter(function(w) {
+                var matchesSearch = w.word.toLowerCase().indexOf(search) !== -1 || w.meaning.indexOf(search) !== -1;
+                if (filter === 'learned') return matchesSearch && w.memorized;
+                if (filter === 'unlearned') return matchesSearch && !w.memorized;
+                return matchesSearch;
+            });
+
+            if (filteredWords.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #a5a5a5; padding: 20px;">검색 결과가 없습니다.</div>';
+                return;
+            }
+
+            filteredWords.forEach(function(w) {
+                var item = document.createElement('div');
+                item.className = 'word-item';
+                item.innerHTML = '<div>' +
+                    '<strong style="color:#ff4d6d;">' + w.word + '</strong> ' +
+                    '<span style="font-size:0.8rem; color:#a5a5a5;">' + w.phonetic + '</span>' +
+                    '<div>' + w.meaning + '</div>' +
+                '</div>' +
+                '<label><input type="checkbox" ' + (w.memorized ? 'checked' : '') + ' onchange="toggleListMemorized(' + w.id + ')"> 암기</label>';
+                container.appendChild(item);
+            });
+        }
+
+        function toggleListMemorized(id) {
+            for (var i = 0; i < words.length; i++) {
+                if (words[i].id === id) {
+                    words[i].memorized = !words[i].memorized;
+                    break;
+                }
+            }
+            saveData();
+        }
+
+        function startQuiz() {
+            quizCurrentIndex = 0;
+            quizScore = 0;
+            quizCombo = 0;
+            quizQuestions = words.slice().sort(function() { return 0.5 - Math.random(); }).slice(0, 10);
+
+            document.getElementById('quiz-container').style.display = 'flex';
+            document.getElementById('quiz-result').style.display = 'none';
+            renderQuizQuestion();
+        }
+
+        function renderQuizQuestion() {
+            var currentQ = quizQuestions[quizCurrentIndex];
+            document.getElementById('quiz-progress-text').innerText = '문제 ' + (quizCurrentIndex + 1) + ' / ' + quizQuestions.length;
+            document.getElementById('quiz-combo-text').innerText = quizCombo + ' Combo';
+            document.getElementById('quiz-target-word').innerText = currentQ.word;
+
+            var otherMeanings = words.filter(function(w) { return w.id !== currentQ.id; }).map(function(w) { return w.meaning; });
+            var shuffledOthers = otherMeanings.sort(function() { return 0.5 - Math.random(); }).slice(0, 3);
+            var options = shuffledOthers.concat([currentQ.meaning]).sort(function() { return 0.5 - Math.random(); });
+
+            var container = document.getElementById('quiz-options');
+            container.innerHTML = '';
+
+            options.forEach(function(opt) {
+                var btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = opt;
+                btn.onclick = function() { selectQuizOption(btn, opt === currentQ.meaning); };
+                container.appendChild(btn);
+            });
+        }
+
+        function selectQuizOption(selectedBtn, isCorrect) {
+            var btns = document.querySelectorAll('.option-btn');
+            for (var i = 0; i < btns.length; i++) btns[i].style.pointerEvents = 'none';
+
+            if (isCorrect) {
+                selectedBtn.classList.add('correct');
+                quizScore += 10;
+                quizCombo++;
+            } else {
+                selectedBtn.classList.add('wrong');
+                quizCombo = 0;
+                for (var i = 0; i < btns.length; i++) {
+                    if (btns[i].innerText.trim() === quizQuestions[quizCurrentIndex].meaning) {
+                        btns[i].classList.add('correct');
+                    }
+                }
+            }
+
+            setTimeout(function() {
+                quizCurrentIndex++;
+                if (quizCurrentIndex < quizQuestions.length) {
+                    renderQuizQuestion();
+                } else {
+                    showQuizResult();
+                }
+            }, 1000);
+        }
+
+        function showQuizResult() {
+            document.getElementById('quiz-container').style.display = 'none';
+            var resultDiv = document.getElementById('quiz-result');
+            resultDiv.style.display = 'flex';
+            document.getElementById('quiz-score').innerText = quizScore + '점';
+        }
+
+        window.onload = function() {
+            loadData();
+            renderFlashcard();
+        };
+    </script>
+</body>
+</html>
